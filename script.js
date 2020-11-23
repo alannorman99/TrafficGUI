@@ -1,15 +1,36 @@
+var globalMap;
 
-L.mapquest.key = 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR';
+function initMap() {
+	L.mapquest.key = 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR';
 
-var map = L.mapquest.map('map', {
-	center: [41.3423, -81.3423],
-	layers: L.mapquest.tileLayer('map'),
-	zoom: 14
-});
+	globalMap = L.mapquest.map('map', {
+		center: [26.471196, -81.810648],
+		layers: L.mapquest.tileLayer('map'),
+		zoom: 14
+	});
 
-map.addControl(L.mapquest.control());
-//map.addLayer(L.mapquest.trafficLayer());
-//map.addLayer(L.mapquest.incidentsLayer());
+	console.log(globalMap);
+
+	globalMap.attributionControl._map
+
+	globalMap.addControl(L.mapquest.control());
+	//map.addLayer(L.mapquest.trafficLayer());
+	//map.addLayer(L.mapquest.incidentsLayer());
+
+}
+
+window.onload = function () {
+	initMap();
+
+}
+
+function displayDetails() {
+
+}
+
+function panMap(lat, lon) {
+	globalMap.panTo({ lat: lat, lon: lon })
+}
 
 
 var placeSearch = placeSearch({
@@ -23,7 +44,7 @@ placeSearch.on('change', (e) => {
 	const lat = e.result.latlng.lat;
 	const lon = e.result.latlng.lng;
 
-	map.panTo({ lat: lat, lon: lon })
+	panMap(lat, lon);
 
 
 });
