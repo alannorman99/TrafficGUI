@@ -5,7 +5,9 @@
 	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
 	<script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
+	<link rel="stylesheet" href="styles.css">
 
 
 </head>
@@ -17,9 +19,19 @@
 		<input type="search" id="place-search-input" placeholder="Start Searching..." />
 	</div>
 
-	<div class='details'>
+	<main>
 
-	</div>
+		<form class="login-form">
+			<label for="email">Email:</label>
+			<input class="u-full-width" type="text" id="email" name="email">
+			<label for="username">Username:</label>
+			<input class="u-full-width" type="text" id="username" name="username">
+			<label for="password">Password:</label>
+			<input class="u-full-width" type="text" id="password" name="password">
+			<button class="button-primary">Submit</button>
+		</form>
+
+	</main>
 
 
 	<script src="script.js"></script>

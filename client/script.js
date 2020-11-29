@@ -1,3 +1,7 @@
+const form = document.querySelector('.login-form');
+
+const API_URL = 'http://localhost:5000/accounts';
+
 var globalMap;
 
 function initMap() {
@@ -24,10 +28,6 @@ window.onload = function () {
 
 }
 
-function displayDetails() {
-
-}
-
 function panMap(lat, lon) {
 	globalMap.panTo({ lat: lat, lon: lon })
 }
@@ -46,6 +46,38 @@ placeSearch.on('change', (e) => {
 
 	panMap(lat, lon);
 
+
+});
+
+form.addEventListener('submit', (event) => {
+	//getting the form elements
+	event.preventDefault();
+	const formData = new FormData(form);
+	const email = formData.get('email');
+	const username = formData.get('username');
+	const password = formData.get('password');
+
+	const account = {
+		email,
+		username,
+		password,
+	};
+
+	console.log(JSON.stringify(account));
+
+	fetch(API_URL, {
+		method: 'POST',
+		body: JSON.stringify(account),
+		headers: {
+			'content-type': 'application/json'
+		}
+	}).then(res => res.json())
+		.then(createAccount => {
+			form.reset();
+			setTimeout(() => {
+				form.style.display = '';
+			}, 3000);
+		});
 
 });
 
