@@ -21,20 +21,32 @@
 
 	<main>
 
-		<form class="login-form">
+	<div class="account-form">
+		<form class="account-form">
 			<label for="email">Email:</label>
 			<input class="u-full-width" type="text" id="email" name="email">
 			<label for="username">Username:</label>
 			<input class="u-full-width" type="text" id="username" name="username">
 			<label for="password">Password (8 characters minimum):</label>
 			<input class="u-full-width" type="password" id="password" name="password" minlength="8" required>
-			<button class="button-primary">Submit</button>
+			<button class="button-primary">Create Account</button>
 		</form>
+	</div>
+
+	<div class="login-form">
+		<form class="login-form">
+			<label for="username">Username/Email:</label>
+			<input class="u-full-width" type="text" id="login-username" name="login-username">
+			<label for="password">Password:</label>
+			<input class="u-full-width" type="password" id="login-password" name="login-password" minlength="8" required>
+			<button class="button-primary">Login</button>
+		</form>
+	</div>
 
 	</main>
 
 
-	<script src="script.js"></script>
+	<script src="client.js"></script>
 
 
 </body>

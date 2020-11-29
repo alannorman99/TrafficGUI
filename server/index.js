@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const monk = require('monk');
 const rateLimit = require('express-rate-limit');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -9,6 +10,9 @@ const db = monk('localhost/TrafficDB');
 
 const accounts = db.get('accounts');
 
+const middlewares = require('./middlewares');
+
+app.use(morgan('common'));
 app.use(cors());
 app.use(express.json())
 
@@ -41,6 +45,10 @@ function isValidEmail(email) {
 	}
 }
 
+function isValidUsername(username) {
+	return true;
+}
+
 const limiter = rateLimit({
 	windowMs: 30 * 1000,
 	max: 1
@@ -51,7 +59,7 @@ app.post('/accounts', (req, res) => {
 	if (isValidAccount(req.body)) {
 
 
-		if (isValidEmail(req.body.email)) {
+		if (isValidEmail(req.body.email) && isValidUsername(req.body.username)) {
 			console.log("Email is " + req.body.email);
 
 			const account = {
@@ -74,6 +82,9 @@ app.post('/accounts', (req, res) => {
 		}
 	}
 });
+
+app.use(middlewares.notFound);
+app.use(middlewares.errorHandler);
 
 app.listen(5000, () => {
 	console.log("Listening on localhost:5000");

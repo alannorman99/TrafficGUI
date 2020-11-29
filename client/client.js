@@ -1,4 +1,5 @@
-const form = document.querySelector('.login-form');
+const account_form = document.querySelector('.account-form');
+const login_form = document.querySelector('.login-form');
 
 const API_URL = 'http://localhost:5000/accounts';
 
@@ -29,42 +30,6 @@ window.onload = function () {
 }
 
 function addRoute() {
-	var directions = L.mapquest.directions();
-	directions.route({
-		start: 'Estero, FL',
-		end: 'Bonita Springs, FL'
-	}, globalMap);
-
-	var customLayer = L.mapquest.directionsLayer({
-		startMarker: {
-			icon: 'circle',
-			iconOptions: {
-				size: 'sm',
-				primaryColor: '#1fc715',
-				secondaryColor: '#1fc715',
-				symbol: 'A'
-			},
-			title: 'Drag to change location'
-		},
-		endMarker: {
-			icon: 'circle',
-			iconOptions: {
-				size: 'sm',
-				primaryColor: '#e9304f',
-				secondaryColor: '#e9304f',
-				symbol: 'B'
-			},
-			title: 'Drag to change location'
-		},
-		routeRibbon: {
-			color: "#2aa6ce",
-			opacity: 1.0,
-			showTraffic: false
-		},
-		directionsResponse: response
-	});
-
-	customLayer.addTo(globalMap);
 
 }
 
@@ -95,7 +60,7 @@ placeSearch.on('change', (e) => {
 form.addEventListener('submit', (event) => {
 	//getting the form elements
 	event.preventDefault();
-	const formData = new FormData(form);
+	const formData = new FormData(account_form);
 	const email = formData.get('email');
 	const username = formData.get('username');
 	const password = formData.get('password');
@@ -109,16 +74,16 @@ form.addEventListener('submit', (event) => {
 	console.log(JSON.stringify(account));
 
 	fetch(API_URL, {
-			method: 'POST',
-			body: JSON.stringify(account),
-			headers: {
-				'content-type': 'application/json'
-			}
-		}).then(res => res.json())
+		method: 'POST',
+		body: JSON.stringify(account),
+		headers: {
+			'content-type': 'application/json'
+		}
+	}).then(res => res.json())
 		.then(createAccount => {
 			form.reset();
 			setTimeout(() => {
-				form.style.display = '';
+				account_form.style.display = '';
 			}, 3000);
 		});
 

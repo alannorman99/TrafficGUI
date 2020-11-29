@@ -1,8 +1,14 @@
-.login-form {
+div > .account-form {
   width: 25%;
   margin-left: 10px;
-  left: 0;
+  float: left;
   text-align: left;
+}
+
+div > .login-form {
+  width: 25%;
+  margin-right: 10px;
+  float: right;
 }
 
 body {
