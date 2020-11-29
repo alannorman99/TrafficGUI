@@ -28,7 +28,17 @@ app.get('/accounts', (req, res) => {
 });
 
 function isValidAccount(account) {
-	return account.email && account.email.toString().trim() != '' && account.username && account.username.toString().trim() != '' && account.password && account.password.toString().trim() != '';
+	return account.email && account.email.toString().trim() != '' &&
+		account.username && account.username.toString().trim() != '' &&
+		account.password && account.password.toString().trim() != '';
+}
+
+function isValidEmail(email) {
+	if (email.includes('@') && email.includes('.')) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 const limiter = rateLimit({
@@ -39,23 +49,29 @@ const limiter = rateLimit({
 app.post('/accounts', (req, res) => {
 	console.log(req.body);
 	if (isValidAccount(req.body)) {
-		const account = {
-			email: req.body.email.toString(),
-			username: req.body.username.toString(),
-			password: req.body.password.toString(),
-			created: new Date(),
-		};
 
-		accounts
-			.insert(account)
-			.then(createdAccount => {
-				res.json(createdAccount);
+
+		if (isValidEmail(req.body.email)) {
+			console.log("Email is " + req.body.email);
+
+			const account = {
+				email: req.body.email.toString(),
+				username: req.body.username.toString(),
+				password: req.body.password.toString(),
+				created: new Date(),
+			};
+
+			accounts
+				.insert(account)
+				.then(createdAccount => {
+					res.json(createdAccount);
+				});
+		} else {
+			res.status(422);
+			res.json({
+				message: "Enter valid content into the form..."
 			});
-	} else {
-		res.status(422);
-		res.json({
-			message: "Enter valid content into the form..."
-		});
+		}
 	}
 });
 
