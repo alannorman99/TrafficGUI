@@ -2,10 +2,14 @@
 const account_form = document.querySelector('.account-form');
 const login_form = document.querySelector('.login-form');
 const logout = document.querySelector('.logout');
+const create_account = document.querySelector('.create-account');
+const loginWindow = document.querySelector('.login-window');
 
 const API_URL = 'http://localhost:5000/accounts';
 
 var globalMap;
+
+login_form.style.display = 'none';
 
 function initMap() {
 	L.mapquest.key = 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR';
@@ -78,12 +82,21 @@ placeSearch.on('change', (e) => {
 logout.addEventListener('click', (event) => {
 	localStorage.clear();
 	console.log("Logged out and storage cleared!");
-})
+	login_form, style.display = '';
+});
+
+loginWindow.addEventListener('click', (event) => {
+	account_form.style.display = 'none';
+	login_form.style.display = '';
+});
+
+create_account.addEventListener('click', (event) => {
+	login_form.style.display = 'none';
+	account_form.style.display = '';
+});
 
 
 login_form.addEventListener('submit', (event) => {
-
-
 	//getting the form elements
 	event.preventDefault();
 	const loginData = new FormData(login_form);
@@ -95,7 +108,7 @@ login_form.addEventListener('submit', (event) => {
 
 	if (test === true) {
 		//set window to that users page
-		console.log(`${username} is already logged in`);
+		alert(`${username} is already logged in`);
 	} else {
 		//check if someone just logged in/ if not then load normal page
 		fetch(API_URL)
@@ -103,7 +116,7 @@ login_form.addEventListener('submit', (event) => {
 			.then(accounts => {
 				const usernameFound = accounts.some(account => account.username === username);
 				if (!usernameFound) {
-					console.log(`The username ${username} doesn't exist`);
+					alert(`The username ${username} doesn't exist`);
 					loggedIn = localStorage.getItem("loggedIn");
 					loggedIn = false;
 					localStorage.setItem("loggedIn", loggedIn);
@@ -123,17 +136,15 @@ login_form.addEventListener('submit', (event) => {
 						localStorage.setItem("isUserLoggedIn", true);
 
 						currentUser = localStorage.getItem("currentUser");
-
 						var userObject = JSON.parse(currentUser);
 
 						userObject.email = result[0].email;
 						userObject.username = result[0].username;
 						userObject.password = result[0].password;
-						console.log(userObject.email, userObject.username);
 						localStorage.setItem("currentUser", JSON.stringify(userObject));
 						return;
 					} else {
-						console.log("The password is incorrect!");
+						alert("The password is incorrect!");
 						loggedIn = localStorage.getItem("loggedIn");
 						loggedIn = false;
 						localStorage.setItem("loggedIn", loggedIn);

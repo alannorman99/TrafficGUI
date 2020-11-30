@@ -41,6 +41,7 @@ function isValidEmail(email) {
 	if (email.includes('@') && email.includes('.')) {
 		return true;
 	} else {
+
 		return false;
 	}
 }
@@ -79,6 +80,7 @@ app.post('/accounts', (req, res) => {
 			res.json({
 				message: "Enter valid content into the form..."
 			});
+			alert("Invalid Input");
 		}
 	}
 });

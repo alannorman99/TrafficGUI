@@ -5,10 +5,30 @@
   text-align: left;
 }
 
+button.login-window {
+  float: right;
+  color: black;
+  background-color: white;
+}
+
 .login-form {
   width: 25%;
   margin-right: 10px;
   float: right;
+}
+
+.logout {
+  color: black;
+  background-color: white;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  float: left;
+}
+
+.create-account {
+  color: black;
+  background-color: white;
 }
 
 body {
