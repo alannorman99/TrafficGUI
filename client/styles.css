@@ -1,11 +1,11 @@
-div > .account-form {
+.account-form {
   width: 25%;
   margin-left: 10px;
   float: left;
   text-align: left;
 }
 
-div > .login-form {
+.login-form {
   width: 25%;
   margin-right: 10px;
   float: right;

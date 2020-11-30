@@ -1,5 +1,7 @@
+
 const account_form = document.querySelector('.account-form');
 const login_form = document.querySelector('.login-form');
+const logout = document.querySelector('.logout');
 
 const API_URL = 'http://localhost:5000/accounts';
 
@@ -26,10 +28,27 @@ function initMap() {
 
 window.onload = function () {
 	initMap();
-	addRoute();
-}
 
-function addRoute() {
+	console.log(localStorage.getItem("isUserLoggedIn"));
+	if (localStorage.getItem("isUserLoggedIn") === null) {
+
+		var currentUser = {
+			email,
+			username,
+			password,
+		};
+		console.log(JSON.stringify(currentUser));
+		localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+		var loggedIn;
+		localStorage.setItem("loggedIn", loggedIn);
+
+	}
+
+	console.log("Is user logged in: " + localStorage.getItem("loggedIn"));
+
+	var user = localStorage.getItem("currentUser");
+	console.log(("User: ", user));
 
 }
 
@@ -39,7 +58,6 @@ function panMap(lat, lon) {
 		lon: lon
 	})
 }
-
 
 var placeSearch = placeSearch({
 	key: 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR',
@@ -57,13 +75,85 @@ placeSearch.on('change', (e) => {
 
 });
 
-form.addEventListener('submit', (event) => {
+logout.addEventListener('click', (event) => {
+	localStorage.clear();
+	console.log("Logged out and storage cleared!");
+})
+
+
+login_form.addEventListener('submit', (event) => {
+
+
 	//getting the form elements
 	event.preventDefault();
-	const formData = new FormData(account_form);
-	const email = formData.get('email');
-	const username = formData.get('username');
-	const password = formData.get('password');
+	const loginData = new FormData(login_form);
+	const username = loginData.get('login-username');
+	const password = loginData.get('login-password');
+
+	let test = localStorage.getItem("loggedIn");
+	console.log("Test Value: " + test);
+
+	if (test === true) {
+		//set window to that users page
+		console.log(`${username} is already logged in`);
+	} else {
+		//check if someone just logged in/ if not then load normal page
+		fetch(API_URL)
+			.then(res => res.json())
+			.then(accounts => {
+				const usernameFound = accounts.some(account => account.username === username);
+				if (!usernameFound) {
+					console.log(`The username ${username} doesn't exist`);
+					loggedIn = localStorage.getItem("loggedIn");
+					loggedIn = false;
+					localStorage.setItem("loggedIn", loggedIn);
+					return;
+				} else {
+
+					var result = accounts.filter(account => {
+						return account.username === username;
+					});
+
+					console.log(password);
+
+					if (result[0].password === password) {
+						loggedIn = localStorage.getItem("loggedIn");
+						loggedIn = true;
+						localStorage.setItem("loggedIn", loggedIn);
+						localStorage.setItem("isUserLoggedIn", true);
+
+						currentUser = localStorage.getItem("currentUser");
+
+						var userObject = JSON.parse(currentUser);
+
+						userObject.email = result[0].email;
+						userObject.username = result[0].username;
+						userObject.password = result[0].password;
+						console.log(userObject.email, userObject.username);
+						localStorage.setItem("currentUser", JSON.stringify(userObject));
+						return;
+					} else {
+						console.log("The password is incorrect!");
+						loggedIn = localStorage.getItem("loggedIn");
+						loggedIn = false;
+						localStorage.setItem("loggedIn", loggedIn);
+						return;
+					}
+				}
+
+			});
+	}
+
+});
+
+
+account_form.addEventListener('submit', (event) => {
+	//getting the form elements
+	event.preventDefault();
+	const accountData = new FormData(account_form);
+	const email = accountData.get('email');
+	const username = accountData.get('username');
+	const password = accountData.get('password');
 
 	const account = {
 		email,
