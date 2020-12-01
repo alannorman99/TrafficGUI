@@ -71,7 +71,7 @@ Once all that is installed, navigate to the server folder within the project and
 
 ### Installation
 
-1. Get a free API Key at [MaoQuest](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register)
+1. Get a free API Key at [MapQuest](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register)
 2. Clone the repo
    ```sh
    git clone https://github.com/alannorman99/TrafficGUI.git
