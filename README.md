@@ -41,6 +41,8 @@
 This is a web application titled TrafficGUI that intends to connect to a mapquest API for real-time map and traffic data. It then displays that data for
 the current user and allows them to create a route based on the traffic levels. The app comes with a local database feature that allows the user to save accounts. We intend to implement a feature that connects the current account to the database and pulls previuosly saved routes from earlier uses and displays them for easier access.
 
+The future for this project is to create a much nicer looking UI along with fully deploying the app so that anyone can use it with just a link. This would involve deploying a mongoDB over the cloud, so any account created is saved for future access. Also, the front-end would need to be permantely deployed and scaleable depending on the amount of users and the type of devices they're using.
+
 ### Built With
 
 The major frameworks used for this application:
@@ -85,23 +87,12 @@ Once all that is installed, navigate to the server folder within the project and
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Once you successfully get the application working locally:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-## Acknowledgements
-
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Img Shields](https://shields.io)
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Pages](https://pages.github.com)
-- [Animate.css](https://daneden.github.io/animate.css)
-- [Loaders.css](https://connoratherton.com/loaders)
-- [Slick Carousel](https://kenwheeler.github.io/slick)
-- [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-- [Sticky Kit](http://leafo.net/sticky-kit)
-- [JVectorMap](http://jvectormap.com)
-- [Font Awesome](https://fontawesome.com)
+1. Create an Account then login with that account information
+2. Enter any destination in the search bar and the map will center on that location
+3. Use the contol panel on the right of the map to toggle the traffic levels
+4. Enter a specific start and end and create the fastest route based on the local traffic
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
