@@ -1,17 +1,25 @@
-
+//Variables to hold html elements for use with javascript
 const account_form = document.querySelector('.account-form');
 const login_form = document.querySelector('.login-form');
 const logout = document.querySelector('.logout');
 const create_account = document.querySelector('.create-account');
 const loginWindow = document.querySelector('.login-window');
+const route_form = document.querySelector('.route-form');
 
+
+//URL for fetch requests intended for the database
 const API_URL = 'http://localhost:5000/accounts';
 
+//global map variable
 var globalMap;
+var direction;
 
 login_form.style.display = 'none';
 
+//Function to create an initial map and center it on Estero
 function initMap() {
+
+	//May need to swap with a personal key from mapquest.com
 	L.mapquest.key = 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR';
 
 	globalMap = L.mapquest.map('map', {
@@ -30,6 +38,32 @@ function initMap() {
 
 }
 
+//Function to create a route with the user entered start and end
+function createRoute(start, end) {
+
+	try {
+		direction = L.mapquest.directions();
+
+		direction.route({
+
+			start: start,
+			end: end,
+			options: {
+				timeOverage: 25,
+				maxRoutes: 3,
+			}
+
+		});
+
+		var directionsLayer = L.mapquest.directionsLayer({
+			directionsResponse: response
+		}).addTo(globalMap);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+//Function that executes everytime the window loads for any reasons
 window.onload = function () {
 	initMap();
 
@@ -56,6 +90,7 @@ window.onload = function () {
 
 }
 
+//Function to move the map when a new location is selected in the search bar
 function panMap(lat, lon) {
 	globalMap.panTo({
 		lat: lat,
@@ -63,11 +98,13 @@ function panMap(lat, lon) {
 	})
 }
 
+//Creates the search bar
 var placeSearch = placeSearch({
 	key: 'cqknkkaMme9j37I5pUmC1ypE9pLVfozR',
 	container: document.querySelector('#place-search-input')
 });
 
+//Detects interaction with the search bar and returns 
 placeSearch.on('change', (e) => {
 
 	console.log(e);
@@ -79,10 +116,12 @@ placeSearch.on('change', (e) => {
 
 });
 
+
+//Event listeners for the basic buttons
 logout.addEventListener('click', (event) => {
 	localStorage.clear();
 	console.log("Logged out and storage cleared!");
-	login_form, style.display = '';
+	login_form.style.display = 'none';
 });
 
 loginWindow.addEventListener('click', (event) => {
@@ -95,7 +134,31 @@ create_account.addEventListener('click', (event) => {
 	account_form.style.display = '';
 });
 
+//Listener for the route generator to get the start and end point of the desired route
+route_form.addEventListener('submit', (event) => {
 
+	try {
+		//getting the form elements
+		event.preventDefault();
+		const loginData = new FormData(route_form);
+		const start = loginData.get('start');
+		const end = loginData.get('end');
+
+		if (start.toString().trim() === "" || end.toString().trim() === "") {
+			alert("Enter valid address: (123 main street, Estero, Florida)")
+		} else {
+			createRoute(start, end);
+		}
+
+	} catch (error) {
+
+		console.log(error);
+	}
+
+
+});
+
+//Login form event listener to detect when a user wants to login
 login_form.addEventListener('submit', (event) => {
 	//getting the form elements
 	event.preventDefault();
@@ -134,7 +197,7 @@ login_form.addEventListener('submit', (event) => {
 						loggedIn = true;
 						localStorage.setItem("loggedIn", loggedIn);
 						localStorage.setItem("isUserLoggedIn", true);
-
+						alert(`${result[0].username} logged in`)
 						currentUser = localStorage.getItem("currentUser");
 						var userObject = JSON.parse(currentUser);
 
@@ -142,6 +205,8 @@ login_form.addEventListener('submit', (event) => {
 						userObject.username = result[0].username;
 						userObject.password = result[0].password;
 						localStorage.setItem("currentUser", JSON.stringify(userObject));
+
+						login_form.reset();
 						return;
 					} else {
 						alert("The password is incorrect!");
@@ -157,7 +222,7 @@ login_form.addEventListener('submit', (event) => {
 
 });
 
-
+//Listener to detect if the user entered valid account information and the sends the data to the server
 account_form.addEventListener('submit', (event) => {
 	//getting the form elements
 	event.preventDefault();
@@ -182,10 +247,9 @@ account_form.addEventListener('submit', (event) => {
 		}
 	}).then(res => res.json())
 		.then(createAccount => {
-			form.reset();
+			account_form.reset();
 			setTimeout(() => {
 				account_form.style.display = '';
 			}, 3000);
 		});
-
 });

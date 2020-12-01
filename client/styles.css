@@ -5,6 +5,13 @@
   text-align: left;
 }
 
+.route-form {
+  text-align: center;
+  width: 25%;
+  margin-left: 40px;
+  display: inline-block;
+}
+
 button.login-window {
   float: right;
   color: black;
